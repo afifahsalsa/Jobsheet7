@@ -37,7 +37,10 @@ class MahasiswaController extends Controller
             'Nama' => 'required',
             'Kelas' => 'required',
             'Jurusan' => 'required',
-            'No_Handphone' => 'required', ]);
+            'No_Handphone' => 'required',
+            'Email' => 'required',
+            'TTL' => 'required',
+        ]);
             //fungsi eloquent untuk menambah data
             Mahasiswa::create($request->all());
             //jika data berhasil ditambahkan, akan kembali ke halaman utama
@@ -74,6 +77,8 @@ class MahasiswaController extends Controller
             'Kelas' => 'required',
             'Jurusan' => 'required',
             'No_Handphone' => 'required',
+            'Email' => 'required',
+            'TTL' => 'required',
         ]);
         Mahasiswa::find($Nim)->update($request->all());
         return redirect()->route('mahasiswa.index')
