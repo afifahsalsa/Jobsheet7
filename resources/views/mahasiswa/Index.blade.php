@@ -35,20 +35,14 @@
             <th>Nama</th>
             <th>Kelas</th>
             <th>Jurusan</th>
-            <th>No_Handphone</th>
-            <th>Email</th>
-            <th>TTL</th>
             <th width="280px">Action</th>
         </tr>
         @foreach ($mahasiswas as $Mahasiswa)
         <tr>
             <td>{{ $Mahasiswa->Nim }}</td>
             <td>{{ $Mahasiswa->Nama }}</td>
-            <td>{{ $Mahasiswa->Kelas }}</td>
+            <td>{{ $Mahasiswa->kelas->nama_kelas}}</td>
             <td>{{ $Mahasiswa->Jurusan }}</td>
-            <td>{{ $Mahasiswa->No_Handphone }}</td>
-            <td>{{ $Mahasiswa->Email }}</td>
-            <td>{{ $Mahasiswa->TTL}}</td>
             <td>
                 <form action="{{ route('mahasiswa.destroy',$Mahasiswa->Nim) }}" method="POST">
                     <a class="btn btn-info" href="{{ route('mahasiswa.show',$Mahasiswa->Nim) }}">Show</a>
@@ -62,7 +56,7 @@
         </tr>
         @endforeach
     </table>
-    <div class="pagination">
+    {{-- <div class="pagination">
         @if ($mahasiswas->currentPage() > 1)
             <a href="{{ $mahasiswas->previousPageUrl() }}" class="btn btn-primary">Previous</a>
         @endif
@@ -70,5 +64,5 @@
         @if ($mahasiswas->hasMorePages())
             <a href="{{ $mahasiswas->nextPageUrl() }}" class="btn btn-primary">Next</a>
         @endif
-    </div>
+    </div> --}}
 @endsection
