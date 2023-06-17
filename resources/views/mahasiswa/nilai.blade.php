@@ -2,11 +2,11 @@
 
 @section('content')
     <div class="row">
-        <div class="col-lg-12 margin-tb">
+        <div class="col-lg-12 margin-tb text-center">
             <div class="pull-left mt-2">
                 <h2>JURUSAN TEKNOLOGI INFORMASI-POLITEKNIK NEGERI MALANG</h2>
             </div>
-            <div class="pull-left mt-2" >
+            <div class="pull-left mt-2 text-center" >
                 <h1>KARTU HASIL STUDI</h1>
             </div>
         </div>
