@@ -24,4 +24,12 @@ class Mahasiswa extends Model
     public function kelas(){
         return $this->belongsTo(Kelas::class);
     }
+    public function matkul(){
+        return $this->belongsToMany(MataKuliah::class, 'mahasiswa_matakuliah', 'mahasiswa_id', 'matakuliah_id')
+        ->withTimestamps();
+    }
+    public function mahasiswaMatkul(){
+        return $this->hasMany(Mahasiswa_MataKuliah::class)
+        ->withTimestamps();
+    }
 };

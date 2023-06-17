@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
 use App\Models\Kelas;
+use App\Models\Mahasiswa_MataKuliah;
+use App\Models\MataKuliah;
 use Illuminate\Http\Request;
 
 class MahasiswaController extends Controller
@@ -100,5 +102,12 @@ class MahasiswaController extends Controller
         Mahasiswa::find($Nim)->delete();
         return redirect()->route('mahasiswa.index')
             -> with('success', 'Mahasiswa Berhasil Dihapus');
+    }
+
+    public function nilai($Nim){
+        $Mahasiswas = Mahasiswa::find($Nim)->first();
+        $nilai = Mahasiswa_MataKuliah::where('mahasiswa_id', $Nim)->get();
+        $matakuliah = MataKuliah::whereIn('id',$nilai->pluck('matakuliah_id'))->get();
+        return view('mahasiswa.nilai', compact(['nilai','Mahasiswas', 'matakuliah']));
     }
 }
