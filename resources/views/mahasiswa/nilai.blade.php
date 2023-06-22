@@ -2,7 +2,8 @@
 
 @section('content')
     <div class="row">
-        <div class="col-lg-12 margin-tb text-center">
+        <div class="col-lg-12 margin-tb
+        ">
             <div class="pull-left mt-2">
                 <h2>JURUSAN TEKNOLOGI INFORMASI-POLITEKNIK NEGERI MALANG</h2>
             </div>
@@ -40,4 +41,6 @@
         </tr>
         @endforeach
     </table>
+    <a href="{{route('mahasiswa.cetak_pdf', $Mahasiswas->Nim)}}" class="btn btn-danger d-flex justify-content-center">Cetak PDF</a>
+    <a href="{{ route('mahasiswa.index') }}" class="btn btn-success mt-3">Kembali</a>
 @endsection

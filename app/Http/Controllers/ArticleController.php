@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use Dompdf\Adapter\PDFLib;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PDF;
@@ -14,7 +15,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+        return view('articles.create');
     }
 
     /**
@@ -78,6 +79,13 @@ class ArticleController extends Controller
 
         $article->save();
         return 'Artikel berhasil diubah';
+    }
+
+
+    public function cetak_pdf(){
+        $articles = Article::all();
+        $pdf = PDF::loadview('articles.articles_pdf',['articles' => $articles]);
+        return $pdf->stream();
     }
 
     /**

@@ -35,7 +35,33 @@ class MahasiswaMatakuliahSeeder extends Seeder
         ]);
         Mahasiswa_Matakuliah::create ([
             'mahasiswa_id' => 1,
-            'matakuliah_id' => 5,
+            'matakuliah_id' => 2,
+            'nilai' => 89,
+        ]);
+
+        Mahasiswa_Matakuliah::create ([
+            'mahasiswa_id' => 2,
+            'matakuliah_id' => 1,
+            'nilai' => 89,
+        ]);
+        Mahasiswa_Matakuliah::create ([
+            'mahasiswa_id' => 2,
+            'matakuliah_id' => 2,
+            'nilai' => 89,
+        ]);
+        Mahasiswa_Matakuliah::create ([
+            'mahasiswa_id' => 2,
+            'matakuliah_id' => 3,
+            'nilai' => 89,
+        ]);
+        Mahasiswa_Matakuliah::create ([
+            'mahasiswa_id' => 2,
+            'matakuliah_id' => 4,
+            'nilai' => 89,
+        ]);
+        Mahasiswa_Matakuliah::create ([
+            'mahasiswa_id' => 2,
+            'matakuliah_id' => 2,
             'nilai' => 89,
         ]);
     }

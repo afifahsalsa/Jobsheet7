@@ -7,6 +7,7 @@ use App\Models\Kelas;
 use App\Models\Mahasiswa_MataKuliah;
 use App\Models\MataKuliah;
 use Illuminate\Http\Request;
+use PDF;
 
 class MahasiswaController extends Controller
 {
@@ -22,55 +23,76 @@ class MahasiswaController extends Controller
     if ($keyword) {
         $query->where('Nama', 'LIKE', "%$keyword%");
     }
-
     $mahasiswas = $query->paginate(3);
-
-    $mahasiswas = Mahasiswa::with('kelas')->get();
-    $paginate = Mahasiswa::orderBy('Nim', 'asc')->paginate(3);
-    return view('mahasiswa.index', ['mahasiswas' => $mahasiswas, 'paginate'=>$paginate]);
+    // dd($mahasiswas);
+    // $mahasiswas = Mahasiswa::with('kelas')->get();
+    // $paginate = Mahasiswa::orderBy('Nim', 'asc')->paginate(3);
+    return view('mahasiswa.index', ['mahasiswas' => $mahasiswas]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $kelas = Kelas::all();
         return view('mahasiswa.create', compact('kelas'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated =  $request->validate([
             'Nim' => 'required',
             'Nama' => 'required',
+            'foto' => 'image|mimes:png,jpg,jpeg.svg,pdf',
             'kelas_id' => 'required',
             'Jurusan' => 'required',
         ]);
-            //fungsi eloquent untuk menambah data
-            $mahasiswas = Mahasiswa::create($request->all());
-            //jika data berhasil ditambahkan, akan kembali ke halaman utama
-            return redirect()->route('mahasiswa.index')
-                ->with('success', 'Mahasiswa Berhasil Ditambahkan');
+
+
+        if($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $fileName = $file->getClientOriginalName();
+            $path = 'storage/gambar_mhs/';
+            $file->move($path, $fileName);
+            $validated['foto'] = $path . $fileName;
+        }
+
+        $fileName = $request->file('foto')->getClientOriginalName();
+        $mahasiswa = new Mahasiswa;
+            $mahasiswa->Nim = $request->get('Nim');
+            $mahasiswa->Nama =  $request->get('Nama');
+            $mahasiswa->foto =  $fileName;
+            $mahasiswa->kelas_id =  $request->get('kelas_id');
+            $mahasiswa->Jurusan =  $request->get('Jurusan');
+            $mahasiswa->save();
+
+        return redirect()->route('mahasiswa.index')->with('success', 'Mahasiswa Berhasil Ditambahkan');
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($Nim)
+    public function show(Request $request, $Nim)
     {
         $mahasiswa = Mahasiswa::with('kelas')->where('nim', $Nim)->first();
         $Mahasiswa = Mahasiswa::find($Nim);
         return view('mahasiswa.detail', compact('Mahasiswa'));
+        $validated =  $request->validate([
+            'Nim' => 'required',
+            'Nama' => 'required',
+            'foto' => 'image|mimes:png,jpg,jpeg.svg,pdf',
+            'kelas_id' => 'required',
+            'Jurusan' => 'required',
+        ]);
+        if($request->hasFile('foto')) {
+            $validated['foto'] = $request->file('foto')->store('gambar_mhs','public');
+        }
+        Mahasiswa::detail($validated);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($Nim)
+    public function edit(Request $request, $Nim)
     {
         // $Mahasiswa = Mahasiswa::find($Nim);
         $Mahasiswa = Mahasiswa::with('kelas')->where('nim', $Nim)->first();
@@ -86,6 +108,7 @@ class MahasiswaController extends Controller
         $request->validate([
             'Nim' => 'required',
             'Nama' => 'required',
+            'foto' => 'image|mimes:png,jpg,jpeg.svg,pdf',
             'Kelas' => 'required',
             'Jurusan' => 'required',
         ]);
@@ -109,5 +132,13 @@ class MahasiswaController extends Controller
         $nilai = Mahasiswa_MataKuliah::where('mahasiswa_id', $Nim)->get();
         $matakuliah = MataKuliah::whereIn('id',$nilai->pluck('matakuliah_id'))->get();
         return view('mahasiswa.nilai', compact(['nilai','Mahasiswas', 'matakuliah']));
+    }
+
+    public function cetak_pdf($Nim){
+        $Mahasiswas = Mahasiswa::find($Nim)->first();
+        $nilai = Mahasiswa_MataKuliah::where('mahasiswa_id', $Nim)->get();
+        $matakuliah = MataKuliah::whereIn('id',$nilai->pluck('matakuliah_id'))->get();
+        $pdf = PDF::loadview('mahasiswa.cetak_pdf', ['mahasiswa' => $Mahasiswas, 'nilai' => $nilai]);
+        return $pdf->stream();
     }
 }

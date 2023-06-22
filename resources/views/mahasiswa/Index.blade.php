@@ -33,6 +33,7 @@
         <tr>
             <th>Nim</th>
             <th>Nama</th>
+            <th>Foto</th>
             <th>Kelas</th>
             <th>Jurusan</th>
             <th width="280px">Action</th>
@@ -41,6 +42,7 @@
         <tr>
             <td>{{ $Mahasiswa->Nim }}</td>
             <td>{{ $Mahasiswa->Nama }}</td>
+            <td><img src="{{ asset('storage/gambar_mhs/' . $Mahasiswa->foto) }}"  width="100px" alt="Foto Mahasiswa"></td>
             <td>{{ $Mahasiswa->kelas->nama_kelas}}</td>
             <td>{{ $Mahasiswa->Jurusan }}</td>
             <td>
@@ -57,13 +59,13 @@
         </tr>
         @endforeach
     </table>
-    {{-- <div class="pagination">
+    <div class="pagination">
         @if ($mahasiswas->currentPage() > 1)
-            <a href="{{ $mahasiswas->previousPageUrl() }}" class="btn btn-primary">Previous</a>
+            <a href="{{ $mahasiswas->previousPageUrl() }}" class="btn btn-primary">Previous <br> </a>
         @endif
 
         @if ($mahasiswas->hasMorePages())
             <a href="{{ $mahasiswas->nextPageUrl() }}" class="btn btn-primary">Next</a>
         @endif
-    </div> --}}
+    </div>
 @endsection

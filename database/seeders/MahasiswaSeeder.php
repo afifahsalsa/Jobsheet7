@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Mahasiswa;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Http\Controllers\MahasiswaController;
 
 class MahasiswaSeeder extends Seeder
 {
@@ -16,12 +17,14 @@ class MahasiswaSeeder extends Seeder
         Mahasiswa::create ([
             'Nim' => 1,
             'Nama' => 'Lee do hyun',
-            'kelas_id' => 3,
+            'foto' => 'chimon.jpg',
+            'kelas_id' => 4,
             'Jurusan' => 'Teknik Mesin',
         ]);
         Mahasiswa::create ([
             'Nim' => 2,
             'Nama' => 'Haechan',
+            'foto' => 'leedd.png',
             'kelas_id' => 2,
             'Jurusan' => 'Teknik Mesin',
         ]);
